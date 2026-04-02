@@ -21,6 +21,7 @@ public class Api {
 
     @GetMapping(path = "/retrieve")
     public Mono<ResponseEntity> get(@RequestParam(name = "id") String id) {
+        generate.generate(id);
         return Mono.just(ResponseEntity.ok().build());
     }
 
