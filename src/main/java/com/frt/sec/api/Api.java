@@ -1,32 +1,24 @@
 package com.frt.sec.api;
 
-import com.frt.sec.service.Generate;
+import com.frt.sec.model.dto.GdprRequest;
+import com.frt.sec.service.GdpDataGeneration;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController()
 @RequestMapping("/api")
 public class Api {
 
-    public Api(Generate generate) {
-        this.generate = generate;
-    }
+    private final GdpDataGeneration gdpDataGeneration;
 
-    private final Generate generate;
-
-
-    @GetMapping(path = "/retrieve")
-    public Mono<ResponseEntity> get(@RequestParam(name = "id") String id) {
-        generate.generate(id);
-        return Mono.just(ResponseEntity.ok().build());
+    public Api(GdpDataGeneration gdpDataGeneration) {
+        this.gdpDataGeneration = gdpDataGeneration;
     }
 
     @GetMapping(path = "/retrievesec")
-    public Mono<ResponseEntity> getSec() {
+    public Mono<ResponseEntity> getSec(@RequestBody GdprRequest gdprrequest) {
+        gdpDataGeneration.generate(gdprrequest);
         return Mono.just(ResponseEntity.ok().build());
     }
 }
