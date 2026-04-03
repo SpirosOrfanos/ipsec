@@ -19,11 +19,11 @@ import java.util.Optional;
 @Component
 public class ApiKeyFilter implements WebFilter {
 
-    @Value("${app.x-gdpr-api.key.header.name}")
-    private String gdpHeaderName;
+    @Value("${app.api.key.header.name}")
+    private String apiHeaderName;
 
-    @Value("${app.x-gdpr-api.key.header.value}")
-    private String gdpHeaderValue;
+    @Value("${app.api.key.header.value}")
+    private String apiHeaderValue;
 
     @Override
     public Mono<Void> filter(ServerWebExchange serverWebExchange,
@@ -32,10 +32,10 @@ public class ApiKeyFilter implements WebFilter {
         if ("/api/retrieve-gdpr".equalsIgnoreCase(serverWebExchange.getRequest().getPath().toString())) {
             ServerHttpRequest request = serverWebExchange.getRequest();
             HttpHeaders headers = request.getHeaders();
-            var gdprKey = Optional.ofNullable(headers.get(gdpHeaderName))
+            var gdprKey = Optional.ofNullable(headers.get(apiHeaderName))
                     .map(List::getFirst)
                     .orElse(null);
-            if (Objects.isNull(gdprKey) || !gdpHeaderValue.equalsIgnoreCase(gdprKey)) {
+            if (Objects.isNull(gdprKey) || !apiHeaderValue.equalsIgnoreCase(gdprKey)) {
                 ServerHttpResponse response = serverWebExchange.getResponse();
                 response.setStatusCode(HttpStatus.FORBIDDEN);
                 return response.setComplete();

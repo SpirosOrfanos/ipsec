@@ -6,6 +6,7 @@ import com.frt.sec.adapter.TravellerMsAdapter;
 import com.frt.sec.model.dto.ConfigItem;
 import com.frt.sec.model.dto.GdprData;
 import com.frt.sec.model.dto.GdprRequest;
+import com.frt.sec.model.dto.ResendJourneyRequest;
 import com.frt.sec.model.vo.CreateFileVo;
 import io.netty.util.CharsetUtil;
 import jakarta.annotation.PostConstruct;
@@ -25,7 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service
-public class GdpDataGenerationService implements GdpDataGeneration{
+public class TravelerActionsService implements TravelerActions {
 
 
     private static final String CONTENTS_FILE_SUFFIX = ".info";
@@ -39,7 +40,7 @@ public class GdpDataGenerationService implements GdpDataGeneration{
     private final ConfigMsAdapter configMsAdapter;
     private final TravellerMsAdapter travellerMsAdapter;
     private final SnowAdapter snowAdapter;
-    public GdpDataGenerationService(ConfigMsAdapter configMsAdapter, TravellerMsAdapter travellerMsAdapter, SnowAdapter snowAdapter) {
+    public TravelerActionsService(ConfigMsAdapter configMsAdapter, TravellerMsAdapter travellerMsAdapter, SnowAdapter snowAdapter) {
         this.configMsAdapter = configMsAdapter;
         this.travellerMsAdapter = travellerMsAdapter;
         this.snowAdapter = snowAdapter;
@@ -80,6 +81,15 @@ public class GdpDataGenerationService implements GdpDataGeneration{
                 gdprrequest.ticketId()));
     }
 
+    @Override
+    public void resend(ResendJourneyRequest request) {
+        travellerMsAdapter.resend(request);
+    }
+
+    @Override
+    public void retrieve(String country) {
+        travellerMsAdapter.retrieve(country);
+    }
 
 
     private void createFiles(CreateFileVo createFileVo) {

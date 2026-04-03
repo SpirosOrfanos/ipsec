@@ -2,6 +2,8 @@ package com.frt.sec.adapter;
 
 import com.frt.sec.model.dto.GdprData;
 import com.frt.sec.model.dto.GdprRequest;
+import com.frt.sec.model.dto.JourneyDto;
+import com.frt.sec.model.dto.ResendJourneyRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,5 +14,13 @@ public class TravellerMsAdapter {
 
     public GdprData retrieveGdprData(GdprRequest gdprRequest) {
         return new GdprData(List.of(UUID.randomUUID().toString(), UUID.randomUUID().toString()), List.of("MY DATA 1", "MY DATA 2"));
+    }
+
+    public void resend(ResendJourneyRequest request) {
+
+    }
+
+    public List<JourneyDto> retrieve(String country) {
+        return List.of();
     }
 }
