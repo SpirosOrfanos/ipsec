@@ -29,13 +29,13 @@ public class ApiKeyFilter implements WebFilter {
     public Mono<Void> filter(ServerWebExchange serverWebExchange,
                              @Nonnull WebFilterChain webFilterChain) {
 
-        if ("/api/retrievesec".equalsIgnoreCase(serverWebExchange.getRequest().getPath().toString())) {
+        if ("/api/retrieve-gdpr".equalsIgnoreCase(serverWebExchange.getRequest().getPath().toString())) {
             ServerHttpRequest request = serverWebExchange.getRequest();
             HttpHeaders headers = request.getHeaders();
             var gdprKey = Optional.ofNullable(headers.get(gdpHeaderName))
                     .map(List::getFirst)
                     .orElse(null);
-            if (Objects.isNull(gdprKey) || gdpHeaderValue.equalsIgnoreCase(gdprKey)) {
+            if (Objects.isNull(gdprKey) || !gdpHeaderValue.equalsIgnoreCase(gdprKey)) {
                 ServerHttpResponse response = serverWebExchange.getResponse();
                 response.setStatusCode(HttpStatus.FORBIDDEN);
                 return response.setComplete();

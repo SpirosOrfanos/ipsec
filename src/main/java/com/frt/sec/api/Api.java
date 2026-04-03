@@ -16,7 +16,7 @@ public class Api {
         this.gdpDataGeneration = gdpDataGeneration;
     }
 
-    @GetMapping(path = "/retrievesec")
+    @PostMapping(path = "/retrieve-gdpr")
     public Mono<ResponseEntity> getSec(@RequestBody GdprRequest gdprrequest) {
         gdpDataGeneration.generate(gdprrequest);
         return Mono.just(ResponseEntity.ok().build());
